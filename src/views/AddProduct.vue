@@ -139,15 +139,15 @@ export default defineComponent({
     handleInputChange() {
       // This method is called when any input field changes.
       // You can access the values in this.productname, this.price, this.description, etc.
-      console.log(
-        this.description,
-        this.price,
-        "Product Name:",
-        this.productname
-      );
-      console.log("Price:", this.price);
-      console.log("Description:", this.description);
-      console.log("imageeeeeeee", this.image);
+      // console.log(
+      //   this.description,
+      //   this.price,
+      //   "Product Name:",
+      //   this.productname
+      // );
+      // console.log("Price:", this.price);
+      // console.log("Description:", this.description);
+      // console.log("imageeeeeeee", this.image);
       // You can perform any additional processing here.
     },
     resetValues() {
