@@ -5,7 +5,7 @@
     <h1>Cart is Empty...</h1>
   </div>
   <div class="cart-items" v-else>
-    <div class="cart-item product" v-for="item in store.cart" :key="item.id">
+    <div class="cart-item " v-for="item in store.cart" :key="item.id">
       <div class="item-details">
         <img :src="item.image" alt="">
         <span>Product: {{ item.productname }}</span>
@@ -43,7 +43,7 @@ const removeFromCart = (id) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   box-shadow: 0 0 17px 6px #e7e7e7;
   border-radius: 8px;
   padding: 16px;

@@ -110,13 +110,8 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { app, db } from "../firebase.js";
 import { storage } from "../firebase.js";
-// import firebase from 'firebase/app'
-// import firebase from "@firebase/app-compat";
-// import firebase from "firebase/compat";
-// import 'firebase/storage'
-// import { storage } from "../src/firebase.js";
+
 
 export default defineComponent({
   name: "AddProduct",
