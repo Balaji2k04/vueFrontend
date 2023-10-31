@@ -5,7 +5,7 @@
     variant="elevated"
     class="product"
   >
-    Back to catalog
+     to catalog
   </v-btn>
 
   <div class="product">
