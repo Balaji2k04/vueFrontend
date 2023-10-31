@@ -9,10 +9,11 @@ export const productsStore = defineStore('products', {
 
   actions: {
     fetchProductsFromDB() {
-      fetch('https://laravel-backend-puce.vercel.app/api/api/ecommerce/list')
+      fetch('https://laravel-backend-puce.vercel.app/api/api/product/list')
           .then(res => res.json())
           .then(json => {
             this.products = json.products;
+            console.log(json,"json.productsjson.products")
           })
     },
 
