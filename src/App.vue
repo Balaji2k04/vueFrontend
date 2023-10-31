@@ -36,12 +36,18 @@
             >Home</RouterLink
           > -->
           <RouterLink
+            to="/AddProduct"
+            active-class="active text-sm font-bold text-gray-800 hover:text-white"
+            v-if="userIsLoggedIn"
+            >Add Product</RouterLink
+          >
+          <RouterLink
             to="/Catalog"
             active-class="active text-sm font-bold text-gray-800 hover:text-white"
             v-if="userIsLoggedIn"
-            >Catalog</RouterLink
+            >Products</RouterLink
           >
-       
+
           <button
             @click="logoutFunction"
             active-class="active text-sm font-bold text-gray-800 hover:text-white"
