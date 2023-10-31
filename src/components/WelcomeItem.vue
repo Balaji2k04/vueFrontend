@@ -7,8 +7,13 @@
     <div
       class="w-full p-6 m-auto bg-white border-t border-purple-600 rounded shadow-lg shadow-purple-800/50 lg:max-w-md"
     >
-      <h1 class="text-3xl font-semibold text-center text-purple-700">LOGO</h1>
-
+      <!-- <h1 class="text-3xl font-semibold text-center text-purple-700">LOGO</h1> -->
+      <div class="flex items-center justify-center bg-inherit">
+        <img
+          src="../assets/logo.png"
+          class="w-20 flex items-center justify-center"
+        />
+      </div>
       <form @submit.prevent="signupRequest" class="mt-6">
         <div class="mt-4">
           <div>

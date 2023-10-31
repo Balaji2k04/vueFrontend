@@ -7,8 +7,13 @@
     <div
       class="w-full p-6 m-auto bg-white border-t border-purple-600 rounded shadow-lg shadow-purple-800/50 lg:max-w-md"
     >
-      <h1 class="text-3xl font-semibold text-center text-purple-700">LOGO</h1>
-
+      <!-- <h1 class="text-3xl font-semibold text-center text-purple-700">LOGO</h1> -->
+      <div class="flex items-center justify-center bg-inherit">
+        <img
+          src="../assets/logo.png"
+          class="w-20 flex items-center justify-center"
+        />
+      </div>
       <form @submit.prevent="loginRequest" class="mt-4">
         <div>
           <label for="email" class="block text-sm text-gray-800">Email</label>
@@ -45,7 +50,7 @@
       </form>
       <p class="mt-8 text-xs font-light text-center text-gray-700">
         Don't have an account?
-        <router-link to="/Register">Sign up</router-link> 
+        <router-link to="/Register">Sign up</router-link>
         <!-- <a
           href="#"
           class="font-medium text-purple-600 hover:underline"
@@ -86,11 +91,16 @@ export default {
       await signInWithEmailAndPassword(auth, v.email, v.password)
         .then((res) => {
           console.log(res, "login Sucessfully...");
-          // window.alert("login Sucessfully...");
-          (v.email = ""),
-            (v.password = ""),
-            this.$router.replace("/Catalog");
-            (v.xhrRequest = false);
+
+          // Successful login
+          const user = res.user;
+
+          const userEmail = user.email;
+          console.log(userEmail, "localstroageImageLoginScreennn");
+          // Store the user's email in local storage
+          localStorage.setItem("userEmail", userEmail);
+          (v.email = ""), (v.password = ""), this.$router.replace("/Catalog");
+          v.xhrRequest = false;
         })
         .catch((error) => {
           window.alert("Invalid Credentials");

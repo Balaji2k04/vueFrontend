@@ -4,12 +4,18 @@
       <nav
         class="container px-4 py-4 mx-auto md:flex md:justify-between md:items-center"
       >
-        <div class="flex items-center justify-between">
-          <router-link
+        <div class="flex" v-if="userIsLoggedIn">
+          <div class="flex items-center justify-center bg-inherit">
+            <img
+              src="../src/assets/logo.png"
+              class="w-20 flex items-center justify-center"
+            />
+          </div>
+          <!-- <router-link
             to="/"
             class="text-xl font-bold text-gray-800 md:text-2xl hover:text-white"
             >Logo
-          </router-link>
+          </router-link> -->
           <!-- Mobile menu button -->
           <div @click="showMenu = !showMenu" class="flex md:hidden">
             <button
@@ -26,6 +32,7 @@
           </div>
         </div>
         <div
+          v-if="userIsLoggedIn"
           :class="showMenu ? 'flex' : 'hidden'"
           class="links flex-col mt-8 space-y-4 md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0"
         >
@@ -38,20 +45,17 @@
           <RouterLink
             to="/AddProduct"
             active-class="active text-sm font-bold text-gray-800 hover:text-white"
-            v-if="userIsLoggedIn"
             >Add Product</RouterLink
           >
           <RouterLink
             to="/Catalog"
             active-class="active text-sm font-bold text-gray-800 hover:text-white"
-            v-if="userIsLoggedIn"
             >Products</RouterLink
           >
 
           <button
             @click="logoutFunction"
             active-class="active text-sm font-bold text-gray-800 hover:text-white"
-            v-if="userIsLoggedIn"
           >
             Logout
           </button>
@@ -60,7 +64,6 @@
             @click="router.push({ name: 'CartView' })"
             color="primary"
             variant="elevated"
-            v-if="userIsLoggedIn"
             >Items in Cart: {{ store.cart.length }}
           </v-btn>
         </div>
@@ -85,7 +88,8 @@ import { ref, onMounted } from "vue";
 import { onAuthStateChanged } from "firebase/auth";
 
 const userIsLoggedIn = ref(false);
-
+const userEmail = localStorage.getItem("userEmail"); // Retrieve user's email from local storage
+console.log(userEmail, "userEmailuserEmailuserEmail");
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is logged in
@@ -102,7 +106,7 @@ const logoutFunction = async () => {
     .then((res) => {
       console.log(res, "Successresponse");
       // window.localStorage.clear();
-
+      localStorage.removeItem("userEmail");
       router.push("/Login");
     })
     .catch((e) => {
