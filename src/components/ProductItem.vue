@@ -4,17 +4,17 @@
         class="product"
     >
       <v-img
-          :src="props.productData.thumbnail"
+          :src="props.productData.image"
           height="200px"
           cover
       />
 
       <v-card-title>
-        {{ props.productData.brand }}
+        {{ props.productData.productname }}
       </v-card-title>
 
       <v-card-subtitle>
-        $ {{ props.productData.price }}
+        ₹ {{ props.productData.price }}
       </v-card-subtitle>
 
       <v-card-text class="custom-text">
@@ -22,8 +22,8 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn @click="goToProductPage(props.productData.id)">
-          Add to cart
+        <v-btn @click="goToProductPage(props.productData.id)" color="primary" variant="elevated">
+          View Product
         </v-btn>
       </v-card-actions>
     </v-card>

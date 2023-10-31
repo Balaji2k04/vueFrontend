@@ -10,12 +10,12 @@
 
   <div class="product">
     <div class="product-image">
-      <img :src="selectedProduct.thumbnail" alt="" />
+      <img :src="selectedProduct.image" alt="" />
     </div>
     <div class="product-details">
-      <p>Brand: {{ selectedProduct.brand }}</p>
+      <p>Brand: {{ selectedProduct.productname }}</p>
       <p>Description: {{ selectedProduct.description }}</p>
-      <h2>Price: ${{ selectedProduct.price }}</h2>
+      <h2>Price: ₹{{ selectedProduct.price }}</h2>
       <v-btn color="primary" variant="elevated" @click="addToCart"
         >Add to cart</v-btn
       >
@@ -40,7 +40,7 @@ const router = useRouter();
 const route = useRoute();
 
 const selectedProduct = computed(() => {
-  return store.products.find((item) => item.id === Number(route.params.id));
+  return store.products.find((item) => item.id === (route.params.id));
 });
 
 const addToCart = () => {

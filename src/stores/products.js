@@ -9,7 +9,7 @@ export const productsStore = defineStore('products', {
 
   actions: {
     fetchProductsFromDB() {
-      fetch('https://dummyjson.com/products')
+      fetch('https://laravel-backend-puce.vercel.app/api/api/ecommerce/list')
           .then(res => res.json())
           .then(json => {
             this.products = json.products;
