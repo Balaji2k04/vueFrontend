@@ -1,44 +1,25 @@
 <template>
-  <div
-    class="relative flex flex-col justify-center min-w-[500px] min-h-[500px] overflow-hidden mt-12"
-  >
+  <div class="relative flex flex-col justify-center min-w-[500px] min-h-[500px] overflow-hidden mt-12">
     <div
-      class="w-full p-6 m-auto bg-white border-t border-purple-600 rounded shadow-lg shadow-purple-800/50 lg:max-w-[1000px]"
-    >
+      class="w-full p-6 m-auto bg-white border-t border-purple-600 rounded shadow-lg shadow-purple-800/50 lg:max-w-[1000px]">
       <!-- <h1 class="text-3xl font-semibold text-center text-purple-700">LOGO</h1> -->
 
-      <form @submit.prevent="AddProduct" class="mt-4">
+      <form @submit.prevent="createproduct" class="mt-4">
         <div>
-          <label for="productname" class="block text-sm text-gray-800"
-            >Product Name</label
-          >
-          <input
-            v-model="productname"
-            @input="handleInputChange"
-            type="text"
-            class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
-          />
+          <label for="productname" class="block text-sm text-gray-800">Product Name</label>
+          <input v-model="productname" @input="handleInputChange" type="text"
+            class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" />
         </div>
         <div>
           <label for="price" class="block text-sm text-gray-800">Price</label>
-          <input
-            v-model="price"
-            @input="handleInputChange"
-            type="text"
-            class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
-          />
+          <input v-model="price" @input="handleInputChange" type="text"
+            class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" />
         </div>
         <div class="mt-4">
           <div>
-            <label for="discription" class="block text-sm text-gray-800"
-              >Discription</label
-            >
-            <textarea
-              v-model="discription"
-              @input="handleInputChange"
-              type="text"
-              class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
+            <label for="description" class="block text-sm text-gray-800">Description</label>
+            <textarea v-model="description" @input="handleInputChange" type="text"
+              class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" />
           </div>
 
           <div id="app" class="container my-3">
@@ -50,23 +31,12 @@
                 <form>
                   <div class="form-group">
                     <label for="my-file">Select Image</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      @change="previewImage"
-                      class="form-control-file"
-                      id="my-file"
-                    />
+                    <input type="file" accept="image/*" @change="previewImage" class="form-control-file" id="my-file" />
 
                     <div class="p-2 mt-3" v-if="preview">
                       <p>Preview Here:</p>
                       <template v-if="preview">
-                        <img
-                          :src="preview"
-                          class="img-fluid"
-                          height="200"
-                          width="200"
-                        />
+                        <img :src="preview" class="img-fluid" height="200" width="200" />
                         <!-- <p class="mb-0">file name: {{ image.name }}</p>
                         <p class="mb-0">size: {{ image.size / 1024 }}KB</p> -->
                       </template>
@@ -79,18 +49,15 @@
         </div>
         <div class="flex justify-end">
           <div class="mt-6 mr-10">
-            <button
-              @click="resetValues"
-              class="w-32 px-4 py-2 tracking-wide text-black transition-colors duration-200 transform bg-inherit-700 rounded-md hover:bg-red-900 focus:outline-none focus:bg-red-900"
-            >
+            <button @click="resetValues"
+              class="w-32 px-4 py-2 tracking-wide text-black transition-colors duration-200 transform bg-inherit-700 rounded-md hover:bg-red-900 focus:outline-none focus:bg-red-900">
               Cancel
             </button>
           </div>
 
           <div class="mt-6">
             <button
-              class="w-32 px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
-            >
+              class="w-32 px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
               save
             </button>
           </div>
@@ -103,6 +70,14 @@
 <script>
 import { defineComponent } from "vue";
 import ProductItem from "@/components/ProductItem.vue";
+import { ref, uploadString, getDownloadURL,getStorage } from "firebase/storage";
+// import { storage } from "../firebase.js"
+// import firebase from 'firebase/app'
+// import firebase from "@firebase/app-compat";
+// import firebase from "firebase/compat";
+// import 'firebase/storage'
+// import { storage } from "../src/firebase.js";
+
 export default defineComponent({
   name: "AddProduct",
   components: {
@@ -112,7 +87,7 @@ export default defineComponent({
   data: function () {
     return {
       productname: "",
-      discription: "",
+      description: "",
       price: "",
       preview: null,
       image: null,
@@ -125,20 +100,21 @@ export default defineComponent({
       // This method is called when any input field changes.
       // You can access the values in this.productname, this.price, this.description, etc.
       console.log(
-        this.discription,
+        this.description,
         this.price,
         "Product Name:",
         this.productname
       );
       console.log("Price:", this.price);
-      console.log("Description:", this.discription);
+      console.log("Description:", this.description);
+      console.log("imageeeeeeee", this.image);
       // You can perform any additional processing here.
     },
     resetValues() {
       // This method resets all entered values to their initial state (empty strings in this case).
       this.productname = "";
       this.price = "";
-      this.discription = "";
+      this.description = "";
       this.image = null;
       this.preview = null;
       // Reset other data properties as needed.
@@ -175,33 +151,125 @@ export default defineComponent({
       this.image = null;
       this.preview = null;
     },
+
+    async createproduct() {
+
+      // const storageRef = ref(
+      //       storage,
+      //       `Ecom_Dev/productImage/${this.productname}`
+
+      //   );
+      //   await uploadString(storageRef, this.image, "data_url", {
+      //       contentType: "image/jpg",
+      //   }).then(async () => {
+      //       getDownloadURL(storageRef)
+      //           .then((url) => {
+      //               console.log("resultresult", url)
+      //               if (url) {
+
+      //                   // updateInDb(userid, url)
+      //               }
+      //           })
+      //           .catch((error) => {
+      //               console.error(error);
+      //           });
+      //   });
+
+      // const storageRef = firebase.storage().ref();
+      // const fileRef = storageRef.child(this.image.name);
+
+      // fileRef.put(this.image)
+      //   .then(snapshot => {
+      //     console.log('File uploaded:', snapshot);
+      //     // You can retrieve the download URL of the uploaded file
+      //     snapshot.ref.getDownloadURL().then(downloadURL => {
+      //       console.log('File available at', downloadURL);
+      //       // Here, you can save the downloadURL in your database or perform any other actions
+      //     });
+      //   })
+      //   .catch(error => {
+      //     console.error('Error uploading file:', error);
+      //   });
+
+
+
+      const storage = getStorage(app);
+      // const file = event.target.files[0];
+      const storageRef = ref(storage, "Ecom_Dev/productImage/" +this.image.name);
+
+      try {
+        // Upload the file to Firebase Storage
+        await uploadBytes(storageRef, this.image);
+
+        // Get the download URL of the uploaded file
+        const downloadURL = await getDownloadURL(storageRef);
+
+        // Now, you have the download URL, which you can store or use as needed
+        console.log('File uploaded. Download URL:', downloadURL);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    
+
+      const postData = {
+        productname:this.productname,
+        price:this.price,
+        description:this.description,
+        image:"hello"
+      };
+      console.log("imageeeeeeee", this.image);
+      console.log("postDatapostData",postData)
+      // fetch('https://laravel-backend-puce.vercel.app/api/api/product/create', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(postData) 
+      // })
+      //   .then(res => {
+      //     console.log("resresresresresres",res)
+      //     if (!res.ok) {
+      //       throw new Error('Network response was not ok');
+      //     }
+      //     return res.json();
+      //   })
+      //   .then(json => {
+      //     // Handle the response if needed
+      //     console.log('POST request response:', json);
+      //   })
+      //   .catch(error => {
+      //     console.error('Error making POST request:', error);
+      //   });
+    }
+
   },
 });
 </script>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import { productsStore } from "@/stores/products";
-import { useRouter } from "vue-router";
+// import { onMounted } from "vue";
+// import { productsStore } from "@/stores/products";
+// import { useRouter } from "vue-router";
 
-const store = productsStore();
-const router = useRouter();
+// const store = productsStore();
+// const router = useRouter();
 
-const search = ref("");
+// // const search = ref("");
 
-const goToProductPage = (id) => {
-  router.push({ name: "ProductView", params: { id } });
-};
+// const goToProductPage = (id) => {
+//   router.push({ name: "ProductView", params: { id } });
+// };
 
-onMounted(async () => {
-  await store.fetchProductsFromDB();
-});
+// onMounted(async () => {
+//   await store.fetchProductsFromDB();
+// });
 </script>
 
 <style scoped>
 .label {
   margin: 20px;
 }
+
 .img-fluid {
   justify-items: center;
 }
